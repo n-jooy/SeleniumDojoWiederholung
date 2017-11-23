@@ -1,5 +1,6 @@
 import Pages.*;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
+import org.junit.Ignore;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,12 +24,12 @@ public class ShoppingTest {
     private ChromeDriver driver;
 
     @BeforeClass
-    public static void setupWebDriverManager(){
+    public static void setupWebDriverManager() {
         ChromeDriverManager.getInstance().setup();
     }
 
     @BeforeMethod
-    public void initTest(){
+    public void initTest() {
         driver = new ChromeDriver();
         driver.get("http://automationpractice.com");
     }
@@ -38,7 +39,7 @@ public class ShoppingTest {
         driver.quit();
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginWithValidCredentialsShouldBeSuccessfullTest() {
         driver.findElementByCssSelector("a.login").click();
         driver.findElementById("email").sendKeys("rianamahliadewi@gmail.com");
@@ -48,7 +49,7 @@ public class ShoppingTest {
         assertThat(welcomeText, is(equalTo("Welcome to your account. Here you can manage all of your personal information and orders.")));
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginWithValidCredentialsShouldBeSuccessfullWithPageObjectsTest() {
         WelcomePage welcome = new WelcomePage(driver);
         LoginPage login = welcome.clickSignInButton();
@@ -60,7 +61,7 @@ public class ShoppingTest {
         assertThat(welcomeText, is(equalTo("Welcome to your account. Here you can manage all of your personal information and orders.")));
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginWithInvalidCredentialsShouldThrowAnAlertTest() {
         driver.findElementByCssSelector("a.login").click();
         driver.findElementById("email").sendKeys("invalidEmail@gmail.com");
@@ -70,7 +71,7 @@ public class ShoppingTest {
         assertThat(errorText, is(equalTo("Authentication failed.")));
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginWithInvalidCredentialsShouldThrowAnAlertWithPageObjectsTest() {
         WelcomePage welcome = new WelcomePage(driver);
         LoginPage login = welcome.clickSignInButton();
@@ -81,7 +82,7 @@ public class ShoppingTest {
         assertThat(errorText, is(equalTo("Authentication failed.")));
     }
 
-    @Test
+    @Test(enabled = false)
     public void searchForProductBySendingReturnTest() {
         driver.findElementById("search_query_top").sendKeys("dress");
         driver.findElementById("search_query_top").sendKeys(Keys.RETURN);
@@ -89,7 +90,7 @@ public class ShoppingTest {
         assertThat(products.size(), is(greaterThan(1)));
     }
 
-    @Test
+    @Test(enabled = false)
     public void searchForProductBySendingReturnWithPageObjectsTest() {
         WelcomePage welcome = new WelcomePage(driver);
         welcome.fillProductSearch("dress");
@@ -98,7 +99,7 @@ public class ShoppingTest {
         assertThat(numberOfResults, is(greaterThan(1)));
     }
 
-    @Test
+    @Test(enabled = false)
     public void searchForProductByClickingSearchButtonTest() {
         driver.findElementById("search_query_top").sendKeys("dress");
         driver.findElementByCssSelector("button.btn.btn-default.button-search").click();
@@ -107,7 +108,7 @@ public class ShoppingTest {
         driver.quit();
     }
 
-    @Test
+    @Test(enabled = false)
     public void searchForProductByClickingSearchButtonWithPageObjectsTest() {
         WelcomePage welcome = new WelcomePage(driver);
         welcome.fillProductSearch("dress");
@@ -116,7 +117,7 @@ public class ShoppingTest {
         assertThat(numberOfResults, is(greaterThan(1)));
     }
 
-    @Test
+    @Test(enabled = false)
     public void sendContactMessageWithoutSubjectShouldFailTest() {
         driver.findElementById("contact-link").click();
         driver.findElementById("email").sendKeys("test@testmail.co.uk");
@@ -126,7 +127,7 @@ public class ShoppingTest {
         assertThat(errorText, is(equalTo("Please select a subject from the list provided.")));
     }
 
-    @Test
+    @Test(enabled = false)
     public void sendContactMessageWithoutSubjectShouldFailWithPageObjectsTest() {
         WelcomePage welcome = new WelcomePage(driver);
         ContactPage contact = welcome.clickOnContactUs();
@@ -135,5 +136,47 @@ public class ShoppingTest {
         contact.clickSubmit();
         String errorText = contact.fetchErrorMessage();
         assertThat(errorText, is(equalTo("Please select a subject from the list provided.")));
+    }
+
+    @Test
+    public void createNewUserTest() {
+        /**
+         * As a new customer I want to register as a new user
+         *
+         * AC:
+         * I can register a new user
+         */
+    }
+
+    @Test
+    public void buyABlouseTest() {
+        /**
+         * As a registered user I want to olace an order for a blouse
+         *
+         * AC:
+         * I can place my order
+         * Order is shown on my order list
+         */
+    }
+
+    @Test
+    public void addToWishlistTest() {
+        /**
+         * As a registered user I want to add a dress to my wishlist
+         *
+         * AC:
+         * I can add things to my wishlists
+         * A click on View in my wishlist redirects to the product
+         */
+    }
+
+    @Test
+    public void removeFromWishlistTest() {
+        /**
+         * As a registered user I want to delete things from my wishlist
+         *
+         * AC:
+         * I can remove things from my wishlist by clicking on delete
+         */
     }
 }
