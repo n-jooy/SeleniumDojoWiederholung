@@ -1,8 +1,30 @@
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WorkshopTest {
+
+    private ChromeDriver driver;
+
+    @BeforeClass
+    public static void setupWebDriverManager(){
+        ChromeDriverManager.getInstance().setup();
+    }
+
+    @BeforeMethod
+    public void initTest(){
+        driver = new ChromeDriver();
+        driver.get("http://automationpractice.com");
+    }
+
+    @AfterMethod
+    public void tearDownTest() {
+        driver.quit();
+    }
 
     @Test
     public void createNewUserTest(){
