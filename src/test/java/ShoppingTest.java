@@ -4,6 +4,8 @@ import org.junit.Ignore;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -140,12 +142,32 @@ public class ShoppingTest {
 
     @Test
     public void createNewUserTest() {
-        /**
-         * As a new customer I want to register as a new user
-         *
-         * AC:
-         * I can register a new user
-         */
+        WelcomePage welcome = new WelcomePage(driver);
+        LoginPage login = welcome.clickSignInButton();
+        login.fillEmailCreate("test@test.de");
+        CreateAccountPage createAccount = login.submitCreateButton();
+        //assertThat(createAccount.getHeadline().getText(), is(equalTo("CREATE AN ACCOUNT")));
+        //createAccount.getFemaleRadioButton().click();
+        try {
+            Thread.sleep(3*1000);
+        } catch (InterruptedException e) {
+            assert false;
+        }
+        createAccount.getFirstnameCustomer().sendKeys("Uschi");
+        createAccount.getLastnameCustomer().sendKeys("Mueller");
+        createAccount.getPassword().sendKeys("test65345");
+        createAccount.getAddress().sendKeys("Adunistrasse 4");
+        createAccount.getCity().sendKeys("Muc");
+        Select clickThis = new Select(createAccount.getId_state());
+        clickThis.selectByVisibleText("Alaska");
+        createAccount.getPostcode().sendKeys("12345");
+        clickThis = new Select(createAccount.getId_country());
+        clickThis.selectByVisibleText("United States");
+        createAccount.getPhone_mobile().sendKeys("73489276483");
+        createAccount.getAlias().sendKeys("fsklfklsf");
+        createAccount.getSubmitAccount().click();
+        String welcomeText = driver.findElementByCssSelector("p.info-account").getText();
+        assertThat(welcomeText, is(equalTo("Welcome to your account. Here you can manage all of your personal information and orders.")));
     }
 
     @Test

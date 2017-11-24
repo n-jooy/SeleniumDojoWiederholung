@@ -19,10 +19,19 @@ public class LoginPage {
     @FindBy(id = "SubmitLogin")
     private WebElement loginButton;
 
+    @FindBy(id = "email_create")
+    private WebElement emailCreate;
+
+    @FindBy(id = "SubmitCreate")
+    private WebElement submitCreateButton;
+
     @FindBy(xpath = "//div[@class='alert alert-danger']//ol//li")
     private WebElement errorBox;
 
+    private WebDriver driver;
+
     public LoginPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -40,5 +49,14 @@ public class LoginPage {
 
     public String fetchErrorMessage(){
         return errorBox.getText();
+    }
+
+    public void fillEmailCreate(String email) {
+        emailCreate.sendKeys(email);
+    }
+
+    public CreateAccountPage submitCreateButton() {
+        submitCreateButton.click();
+        return new CreateAccountPage(driver);
     }
 }
