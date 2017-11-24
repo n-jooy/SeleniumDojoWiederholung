@@ -139,7 +139,14 @@ public class ShoppingTest {
     }
 
     @Test
-    public void createNewUserTest() {
+    public void createNewUserTest() throws InterruptedException {
+        WelcomePage welcome = new WelcomePage(driver);
+        LoginPage login = welcome.clickSignInButton();
+        login.fillEmailCreate("sag@ich.net");
+        login.clickCreateButton();
+        RegistrationPage reg = new RegistrationPage(driver);
+        reg.clickGenderMale();
+        reg.fillCustomerFirstname("Alex");
         /**
          * As a new customer I want to register as a new user
          *
